@@ -1,0 +1,9 @@
+repeat :: (int -> int) -> int -> int -> int;
+repeat f n x =
+    if == n 0
+    x
+    repeat f - n 1 f x;
+mul2 :: int -> int;
+mul2 = * 2;
+main :: int;
+main = repeat mul2 10 1;

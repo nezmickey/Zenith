@@ -1,0 +1,6 @@
+twice :: (int -> int) -> int -> int;
+twice f x = f f x;
+add2 :: int -> int;
+add2 = + 2;
+main :: int;
+main = twice add2 10;

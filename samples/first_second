@@ -1,0 +1,6 @@
+first :: int -> int -> int;
+first x y = x;
+second :: int -> int -> int;
+second x y = y;
+main :: int;
+main = first 1 / 2 0;

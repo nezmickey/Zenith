@@ -1,0 +1,11 @@
+gcd :: int -> int -> int;
+gcd x y = 
+    if == y 0
+    x
+    if == x 0
+    y
+    gcd y % x y;
+lcm :: int -> int -> int;
+lcm x y = / * x y gcd x y;
+main :: int;
+main = lcm 36 42;

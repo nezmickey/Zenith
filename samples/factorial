@@ -1,0 +1,4 @@
+factorial :: int -> int;
+factorial n = if == n 1 1 * n factorial - n 1;
+main :: int;
+main = factorial 10;

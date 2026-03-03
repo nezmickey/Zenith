@@ -1,0 +1,11 @@
+# Build artifacts
+*.exe
+*.o
+*.obj
+
+# IDE settings
+.vscode/
+
+# AI context
+.agent/
+.gemini/

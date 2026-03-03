@@ -1,0 +1,9 @@
+pow :: int -> int -> int;
+pow x n =
+    if == n 0
+    1
+    if == % n 2 1
+    * x pow * x x / n 2
+    pow * x x / n 2;
+main :: int;
+main = pow 5 10;
