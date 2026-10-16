@@ -1,0 +1,10 @@
+main :: -> 0 0;
+main : -> int double = \ x : int / to_double x 5.0;
+
+/*
+これ以外にも
+to_string (int double bool から)
+to_int (string から)
+to_double (string int から)
+を用意する。すべて引数がレベル0なのでジェネリックが不要
+*/

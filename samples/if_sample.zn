@@ -1,0 +1,2 @@
+main :: -> 0 0;
+main : -> int string = \ x : int if[0] == x 1 "One" if[0] == x 2 "Two" "Else";

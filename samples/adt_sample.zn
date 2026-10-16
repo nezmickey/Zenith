@@ -1,0 +1,30 @@
+// 代数的データ構造 (algebraic_data_type)
+// type とパターンマッチのサンプル
+
+/* 金額・割引・商品 */
+type money    = | Yen int;                                 // 各選択肢は "| コンストラクタ名 要素の型1 要素の型2..." という構造をしている
+type discount = | NoDiscount | Percent int | Fixed money;  // 選択肢ごとに持つデータが違う・要素がないとenumのような使い方もできる
+type item     = | Item money discount;                     // type の中に type を入れ子にする
+
+/* 価格に応じて割引の種類を決める（値として割引の種類を返す） */
+coupon :: -> 0 0;
+coupon : -> int discount = \ p : int
+    if >= p 5000 Percent 10
+    if >= p 1000 Fixed Yen 300
+    NoDiscount;
+
+/* 割引の種類ごとに支払額を計算する */
+// ここではパターンマッチが使われる。パターンマッチはtypeで宣言された変数について選択肢に応じて処理を分ける構文である。コンストラクタと似た構文で中身を変数に代入する。
+pay :: -> 0 0;
+pay : -> item int = \ it : item
+    match it Item price d          // 商品を金額と割引に分解
+    match price Yen p              // 金額から int を取り出す
+    match d
+        NoDiscount p
+        Percent r / * p - 100 r 100
+        Fixed m match m Yen off
+            if < p off 0 - p off;
+
+/* 入力: 定価  出力: 支払額 */
+main :: -> 0 0;
+main : -> int int = \ x : int pay Item Yen x coupon x;

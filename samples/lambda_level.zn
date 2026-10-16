@@ -1,0 +1,46 @@
+/* lambda_level.zn
+   ラムダ本体のレベルの決まり方
+   優先順位: 明示 \[k] > 文脈（その位置で求められているレベル） > 既定値 0
+   本体をどこまで読むかが決まれば、ラムダの形（返すのが値か関数か、関数ならその引数のレベル）は本体の型から確定する */
+
+type list<T> = | Nil | Cons T list<T>;
+
+// T は :: に現れないので、呼び出し側での T のレベルは推論で決まる（文脈からは分からない）
+length :: -> 0 0;
+length<T> : -> list<T> int = \ xs : list<T>
+    match xs Nil 0 Cons y rest + 1 length rest;
+
+twice :: -> 1 -> 0 0;
+twice<T> : -> -> T T -> T T = \ f : -> T T \ x : T f f x;
+
+
+// 1. トップレベル: : の型宣言から決まる
+//    外側のラムダの本体は -> int int（レベル1）なので、内側のラムダは適用されずに関数のまま。内側の本体はレベル0
+add :: -> 0 -> 0 0;
+add : -> int -> int int = \ a : int \ b : int + a b;
+
+// 2. 引数の位置: twice の第1引数はレベル1なので、ラムダは関数として渡され、本体はレベル0で読まれる
+plus2 :: -> 0 0;
+plus2 : -> int int = \ n : int twice<int> \ x : int + x 1 n;
+
+// 3. レベル0の位置: ラムダはその場で適用される（ローカル変数）。s = * n n
+sq_plus :: -> 0 0;
+sq_plus : -> int int = \ n : int \ s : int + s 1 * n n;
+
+// 4. レベルが分からない位置: Cons のフィールドの位置は length の T が決まっていないのでレベル不明
+//    ラムダ自体は引数を取らず関数として置かれ、本体は既定値0で + x n まで読まれる
+//    → 本体の型から、このラムダは -> int int、T = -> int int と確定する
+count1 :: -> 0 0;
+count1 : -> int int = \ n : int length Cons \ x : int + x n Nil;
+
+// 5. 関数を返すラムダをレベル不明の位置に置くときは \[k] で本体のレベルを明示する
+//    [1] から分かるのは「本体はレベル1」ということだけ。本体を + x まで読み、
+//    その型 -> int int から返す関数の引数がレベル0だと分かる → このラムダは -> int -> int int（レベル2）
+//    （\[1] を付けないと本体は既定値0で + x Nil と読まれ、Nil が int ではないので型エラーになる）
+count2 :: -> 0 0;
+count2 : -> int int = \ n : int length Cons \[1] x : int + x Nil;
+
+/* 入力: n  出力: (plus2 n + sq_plus n) + (count1 n + count2 n)
+   例) n = 3 → (5 + 10) + (1 + 1) = 17 */
+main :: -> 0 0;
+main : -> int int = \ n : int + add plus2 n sq_plus n + count1 n count2 n;

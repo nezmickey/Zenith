@@ -1,0 +1,2 @@
+unless[N] :: -> 0 -> N -> N N;
+unless[N]<T> : -> bool -> T -> T T = \ c : bool \ a : T \ b : T if[N] c b a;

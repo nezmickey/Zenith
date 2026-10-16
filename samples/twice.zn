@@ -1,0 +1,9 @@
+++ :: -> 0 0;
+++ : -> int int = \ x : int + x 1;
+
+twice :: -> 1 -> 0 0;
+twice<T> : -> -> T T -> T T = \ f : -> T T \ x : T f f x;
+
+// 入力された整数 x に対して x^2 + 2 を返すプログラム
+main :: -> 0 0;
+main : -> int int = \ x : int twice<int> ++ * x x;
